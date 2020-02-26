@@ -1,0 +1,104 @@
+<!-- PAGE HOME DU SITE -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}E-ecole{% endblock %}</title>
+    {% block stylesheets %} {% endblock %}
+    {% block head %} {% endblock %}
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+        <a class="navbar-brand" href="{{ path('home') }}"><i class="fas fa-graduation-cap"></i> E-ecole</a>
+        <div class="collapse navbar-collapse " id="navbarCollapse">
+            {% if app.user ==null %}
+                <ul class="ml-auto navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link " href="/login">Intranet</a>
+                    </li>
+                </ul>
+            {% endif %}
+
+        </div>
+        {% if app.user %}
+            <ul class="ml-auto navbar-nav">
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.username }}</span>
+                        <img class="img-profile rounded-circle"  style="width: 35px" src="{{ app.request.session.get('photo') }}">
+                    </a>
+                    <!-- Dropdown - User Information -->
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                        {% if app.user.role == 'ROLE_ADMIN'%}
+                            <a class="dropdown-item" href="{{ path('admin') }}">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Mon espace
+                            </a>
+                        {% endif %}
+                        {% if app.user.role == 'ROLE_ENSEIGNANT'%}
+                            <a class="dropdown-item" href="{{ path('enseignant') }}">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Mon espace
+                            </a>
+                        {% endif %}
+                        {% if app.user.role == 'ROLE_ETUDIANT'%}
+                            <a class="dropdown-item" href="{{ path('etudiant') }}">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Mon espace
+                            </a>
+                        {% endif %}
+                        {% if app.user.role == 'ROLE_BLOG'%}
+                            <a class="dropdown-item" href="{{ path('etudiant') }}">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Mon espace
+                            </a>
+                            <a class="dropdown-item" href="/blogedit">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Edit blog
+                            </a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        {% endif %}
+    </nav>
+</header>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Déja ?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Click sur "Logout" si tu veux nous quitter</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% block body %} {% endblock %}
+<!-- FOOTER -->
+<hr class="featurette-divider">
+<footer class="container">
+    <p class="float-right"><a href="#">Back to top</a></p>
+    <p><i class="fas fa-graduation-cap"></i> E-ecole &copy; 2017-2019 </p>
+</footer>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

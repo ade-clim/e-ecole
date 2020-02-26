@@ -1,0 +1,8 @@
+easy_admin:
+  entities:
+    Category:
+      class: App\Entity\Category
+      form:
+        fields:
+          - {property: 'name'}
+          - {property: 'slug'}

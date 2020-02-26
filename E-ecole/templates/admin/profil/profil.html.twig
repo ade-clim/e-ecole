@@ -1,0 +1,53 @@
+{% extends 'baseAdmin.html.twig' %}
+
+
+{% block body %}
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-center">
+            <div class="col-md-3">
+                <div class="card" style="height: 30rem;">
+                    <div class="card-header"><h3 align="center">Ma fiche</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_start(formAdmin) }}
+                        {{ form_row(formAdmin.photo) }}
+                        {{ form_row(formAdmin.nom) }}
+                        {{ form_row(formAdmin.prenom) }}
+                        {{ form_row(formAdmin.email) }}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card" style="height: 30rem;">
+                    <div class="card-header"><h3 align="center">Adresse</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_row(formAdmin.adresse.rue) }}
+                        {{ form_row(formAdmin.adresse.codepostal) }}
+                        {{ form_row(formAdmin.adresse.ville) }}
+                    </div>
+                </div><br>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success">Modifier</button>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card" style="height: 30rem;">
+                    <div class="card-header"><h3 align="center">Login</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_row(formAdmin.login.login) }}
+                        {{ form_row(formAdmin.login.password) }}
+                        {{ form_end(formAdmin) }}
+                    </div>
+                </div><br>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

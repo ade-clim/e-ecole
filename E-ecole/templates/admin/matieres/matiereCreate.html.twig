@@ -1,0 +1,23 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header"><h3 align="center">Matiere</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_start(formMatiere) }}
+                        {{ form_row(formMatiere.nom) }}
+                        {{ form_row(formMatiere.enseignant) }}
+                        {{ form_row(formMatiere.promotion) }}
+                        <br><div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success">Creer</button>
+                        </div>
+
+                        {{ form_end(formMatiere) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

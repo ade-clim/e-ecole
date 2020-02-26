@@ -1,0 +1,17 @@
+# projet_nfa021
+
+ETAPES : installer wamp
+
+1) dans le projet dossier migration supprimer les differentes versions.php
+
+2) dans le projet en mode ligne de commande
+
+3) "php bin/console doctrine:database:create"
+
+4) "php bin/console make:migration"
+
+5) "php bin/console doctrine:migration:migrate"
+        
+6) "php bin/console doctrine:fixtures:load"
+
+7) "php -S 127.0.0.1:3000 -t public" il faut etre dans le dossier E-ecole

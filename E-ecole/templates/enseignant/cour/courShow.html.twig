@@ -1,0 +1,59 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h2 class="h3 mb-0 text-gray-800">Mes cours</h2>
+        </div>
+        {% for matiere in enseignant.matiere %}
+            <div class="text-white bg-gray-500 my-2 py-1 text-center">
+                <div class="card-body">
+                    <p class="text-white m-0"><h3>{{ matiere.nom }}</h3></p>
+                </div>
+            </div>
+
+            <i onclick = "myFunction({{ matiere.nom|json_encode }})" class="fas fa-chevron-down"></i>
+            <div id="{{ matiere.nom }}" style="display: block;" >
+                <div class="row">
+                    {% for cours in matiere.cours %}
+                        <div class="col-md-3 mb-5">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <a href="{{ path('ens_cour_view',{'id':cours.id}) }}"><h3 class="card-title">{{ cours.titre }} :</h3></a>
+                                    <p class="card-text ">{{ cours.description }}</p>
+                                    <p>{{ cours.ressources|length }} ressources</p>
+                                </div>
+                                <div class="card-footer">
+                                    <small title="date du cour"><i class="far fa-calendar-alt"></i> {{ cours.beginAt|date('d-m-Y') }}</small>
+                                    <small style="float: right" title="{{ matiere.promotion.etudiants|length - cours.absences|length }} etudiants présents sur {{ matiere.promotion.etudiants|length }}" ><i class="fas fa-user-graduate"></i> {{ matiere.promotion.etudiants|length - cours.absences|length }}/{{ matiere.promotion.etudiants|length }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="d-flex justify-content-center">
+                    <a href="{{ path('ens_cour_create',{'id':matiere.id}) }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Creer</a>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+
+    {% block javascripts %}
+        <script>
+            function myFunction(matiere) {
+                var div = document.getElementById(matiere);
+
+                if(div.style.display == "none") {
+                    div.style.display = "block";
+                } else {
+                    div.style.display = "none";
+                }
+            }
+        </script>
+
+    {% endblock %}
+

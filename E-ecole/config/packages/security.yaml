@@ -1,0 +1,47 @@
+security:
+    access_denied_url: /
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        from_database:
+            entity:
+                class: App\Entity\Login
+                property: login
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            logout:
+                path: /logout
+                target: /
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            form_login:
+                check_path: login
+                default_target_path: /redirect
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/enseignant, roles: ROLE_ENSEIGNANT }
+         - { path: ^/etudiant, roles: ROLE_ETUDIANT }
+         - { path: ^/blogedit, roles: ROLE_BLOG }
+
+    role_hierarchy:
+        ROLE_BLOG:       ROLE_ETUDIANT
+
+        # - { path: ^/profile, roles: ROLE_USER }
+
+
+    encoders:
+        App\Entity\Login: plaintext
+
+

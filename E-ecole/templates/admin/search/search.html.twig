@@ -1,0 +1,263 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block body %}
+
+    {% if etudiants|length < 1 and enseignants|length <1 and matieres|length < 1%}
+        <div class="container-fluid">
+            <h4>Aucune recherche ne correpond au terme "{{ valueSearch }}"</h4>
+        </div>
+
+    {% endif %}
+    {% if etudiants|length >0 %}
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Recherche etudiants</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Email</th>
+                                <th>Adresse</th>
+                                <th>Promotion</th>
+                                <th>Absences total</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Email</th>
+                                <th>Adresse</th>
+                                <th>Promotion</th>
+                                <th>Absences total</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for etudiant in etudiants%}
+                                <tr>
+                                    <td>{{ etudiant.id}}</td>
+                                    <td>{{ etudiant.nom}}</td>
+                                    <td>{{ etudiant.prenom}}</td>
+                                    <td>{{ etudiant.email}}</td>
+                                    <td>{{ etudiant.adresse.rue}} - {{ etudiant.adresse.codePostal}} {{ etudiant.adresse.ville}}</td>
+                                    <td>{{ etudiant.promotion.libelle }}</td>
+                                    <td>{{ etudiant.absences|length }}</td>
+                                    <td><a href="{{ path('admin_etudiant_show',{'id':etudiant.id}) }}"><i style="color: green" class="fas fa-eye"></i></a></td>
+                                    <td><a href="{{ path('admin_etudiant_edit',{'id':etudiant.id}) }}"><i class="fas fa-pencil-alt"></i></a></td>
+                                    <td><i style="color: crimson" class="fas fa-trash-alt" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ etudiant.id }}"></i>
+                                    </td>
+                                </tr>
+                                <!-- Delete Modal-->
+                                <div class="modal fade" id="myModal{{ etudiant.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document" id="15">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Supprimer la matiere ?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">Aucun retour en arriere ne sera possible</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                                                <a class="btn btn-primary" href="{{ path('admin_etudiant_delete',{'id':etudiant.id}) }}">Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Delete Modal-->
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+
+    {% if matieres|length >0 %}
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Recherche matieres</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Libelles</th>
+                                <th>Promotions</th>
+                                <th>Enseignants</th>
+                                <th>Cours<small>(nombre)</small></th>
+                                <th>Absences</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Libelles</th>
+                                <th>Promotions</th>
+                                <th>Enseignants</th>
+                                <th>Cours<small>(nombre)</small></th>
+                                <th>Absences</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for matiere in matieres%}
+                                {% set cpt = 0%}
+                                <tr>
+                                    <td>{{ matiere.id}}</td>
+                                    <td>{{ matiere.nom}}</td>
+                                    <td>{{ matiere.promotion.libelle }}</td>
+                                    <td>{{ matiere.enseignant.nom}} {{ matiere.enseignant.prenom }}</td>
+                                    <td>{{ matiere.cours|length }}</td>
+                                    {% for cours in matiere.cours %}
+                                        {% if cours.absences|length >0 %}
+                                            {% set cpt = cpt + (cours.absences|length)  %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td>{{ cpt }}</td>
+                                    <td><a href="{{ path('admin_matiere_show',{'id':matiere.id}) }}"><i style="color: green" class="fas fa-eye"></i></a></td>
+                                    <td><a href="{{ path('admin_matiere_edit',{'id':matiere.id}) }}"><i class="fas fa-pencil-alt"></i></a></td>
+                                    <td><i style="color: crimson" class="fas fa-trash-alt" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ matiere.id }}"></i>
+                                    </td>
+                                </tr>
+                                <!-- Delete Modal-->
+                                <div class="modal fade" id="myModal{{ matiere.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document" id="15">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Supprimer la matiere ?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">Aucun retour en arriere ne sera possible</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                                                <a class="btn btn-primary" href="{{ path('admin_matiere_delete',{'id':matiere.id}) }}">Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Delete Modal-->
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+    {% if enseignants|length >0 %}
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Recherche enseignants</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Email</th>
+                                <th>Adresse</th>
+                                <th>Promotion</th>
+                                <th>Matieres</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Email</th>
+                                <th>Adresse</th>
+                                <th>Promotion</th>
+                                <th>Matieres</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for enseignant in enseignants%}
+                                <tr>
+                                    <td>{{ enseignant.id}}</td>
+                                    <td>{{ enseignant.nom}}</td>
+                                    <td>{{ enseignant.prenom}}</td>
+                                    <td>{{ enseignant.email}}</td>
+                                    <td>{{ enseignant.adresse.rue}} - {{ enseignant.adresse.codePostal}} {{ enseignant.adresse.ville}}</td>
+                                    <td title="{% for promo in enseignant.promotions %}[{{ promo.libelle }}]{% endfor %}">{{ enseignant.promotions|length }}</td>
+
+
+                                    <td title="{% for mat in enseignant.matiere %}[{{ mat.nom }}]{% endfor %}">{{ enseignant.matiere|length }}</td>
+
+
+                                    <td><a href="{{ path('admin_enseignant_show',{'id':enseignant.id}) }}"><i style="color: green" class="fas fa-eye"></i></a></td>
+                                    <td><a href="{{ path('admin_enseignant_edit',{'id':enseignant.id}) }}"><i class="fas fa-pencil-alt"></i></a></td>
+                                    <td><i style="color: crimson" class="fas fa-trash-alt" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ enseignant.id }}"></i>
+                                    </td>
+                                </tr>
+                                <!-- Delete Modal-->
+                                <div class="modal fade" id="myModal{{ enseignant.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document" id="15">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Supprimer la matiere ?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">Aucun retour en arriere ne sera possible</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                                                <a class="btn btn-primary" href="{{ path('admin_enseignant_delete',{'id':enseignant.id}) }}">Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Delete Modal-->
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

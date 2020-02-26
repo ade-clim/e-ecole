@@ -1,0 +1,130 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <h2 class="h3 mb-0 text-gray-800">Matiere : <span class="text-primary">{{ matiere.nom }}</span></h2>
+        <div class="album py-5 bg-light" >
+            <div class="container-fluid" align="center">
+                <div class="card o-hidden border-0 shadow-lg my-4" style="width: 45rem;">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div><img src="{{ matiere.enseignant.photo}}"></div>
+                            <div class="col-lg-7">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">{{ matiere.enseignant.nom }} {{ matiere.enseignant.prenom }}</h1>
+                                    </div>
+                                    <div class="text-left">
+                                        <div  >
+                                            Email : {{ matiere.enseignant.email }}
+                                        </div>
+                                        <div >
+                                            Adresse : {{ matiere.enseignant.adresse.rue }}
+                                        </div>
+                                        <div>
+                                            {{ matiere.enseignant.adresse.codepostal }} {{ matiere.enseignant.adresse.ville }}
+
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <a href="{{ path('admin_enseignant_show',{'id':matiere.enseignant.id}) }}"><i class="fas fa-eye" style="color: green"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Fiche matiere</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>Promotion</th>
+                                <th>Cours<small>(nombre)</small></th>
+                                <th>Ressources<small>(nombre)</small></th>
+                                <th>Etudiants<small>(nombre)</small></th>
+                                <th>Absences</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Promotion</th>
+                                <th>Cours<small>(nombre)</small></th>
+                                <th>Ressources<small>(nombre)</small></th>
+                                <th>Etudiants<small>(nombre)</small></th>
+                                <th>Absences</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% set abs = 0%}
+                            {% set ressource = 0%}
+                            <td>{{ matiere.promotion }}</td>
+                            <td>{{ matiere.cours|length }}</td>
+
+                            {% for absence in matiere.cours %}
+                                {% if absence.ressources|length >0 %}
+                                    {% set ressource = ressource + (absence.ressources|length)  %}
+                                {% endif %}
+                                {% if absence.absences|length >0 %}
+                                    {% set abs = abs + (absence.absences|length)  %}
+                                {% endif %}
+                            {% endfor %}
+                            <td>{{ ressource }}</td>
+                            <td>{{ matiere.promotion.etudiants|length}}</td>
+                            <td>{{ abs }}</td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Fiche absences</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>Cours</th>
+                                <th>Date
+                                <th>Etudiant</th>
+                                <th>Motif</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Cours</th>
+                                <th>Date</th>
+                                <th>Etudiant</th>
+                                <th>Motif</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for cours in matiere.cours %}
+                                {% for absence in cours.absences %}
+                                    <tr>
+                                        <td>{{ cours.titre }}</td>
+                                        <td>{{ cours.beginAt|date('d-m-Y') }}</td>
+                                        <td>{{ absence.etudiant.nom }}</td>
+                                        <td>{{ absence.motif }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block button_top %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Promotions</h1>
+
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h2 class="h3 mb-0 text-gray-800">Promotions</h2>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group mr-2">
+                    <a href="{{ path('admin_promotion_create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Creer</a>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Fiches promotions</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="dataTable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Promotions</th>
+                            <th>Enseignants nb</th>
+                            <th>Etudiants nb</th>
+                            <th>Matieres nb</th>
+                            <th>Absences Total</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Promotions</th>
+                            <th>Enseignants nb</th>
+                            <th>Etudiants nb</th>
+                            <th>Matieres nb</th>
+                            <th>Absences Total</th>
+                            <th>Edit</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for promotion in promotions%}
+                            {% set cpt = 0%}
+                            <tr>
+                                <td>{{ promotion.id}}</td>
+                                <td>{{ promotion.libelle}}</td>
+                                <td>{{ promotion.enseignants|length}}</td>
+                                <td>{{ promotion.etudiants|length}}</td>
+                                <td>{{ promotion.matiere|length}}</td>
+                                {% for matiere in promotion.matiere %}
+                                    {% for cours in matiere.cours %}
+                                        {% if cours.absences|length >0 %}
+                                            {% set cpt = cpt + (cours.absences|length)  %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                                <td>{{ cpt }}</td>
+                                <td><a href="{{ path('admin_promotion_edit',{'id':promotion.id}) }}"><i class="fas fa-pencil-alt"></i></a></td>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item"></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+

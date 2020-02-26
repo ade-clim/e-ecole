@@ -1,0 +1,66 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block button_top %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Enseignants</h1>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h2 class="h3 mb-0 text-gray-800">Enseignants</h2>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group mr-2">
+                    <a href="{{ path('admin_enseignant_create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Creer</a>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span data-feather="calendar"></span>Affichage
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ path('admin_enseignants_view_avancee') }}">Avancee</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    {% for enseignant in enseignant%}
+                        <div class="col-md-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="{{ enseignant.photo }}" alt="" width="250px">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        {% for promotions in enseignant.promotions %}
+                                            Promo: {{ promotions.libelle }}<br>
+                                        {% endfor %}
+                                        Nom: {{ enseignant.nom }}<br>
+                                        Prenom: {{ enseignant.prenom }}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <td><a href="{{ path('admin_enseignant_show',{'id':enseignant.id}) }}"><i style="color: green" class="fas fa-eye"></i></a></td>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item">{{ knp_pagination_render(enseignant) }}</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h2 class="h3 mb-0 text-gray-800">Matiere : <span class="text-primary">{{ matiere.nom }}</span></h2>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Fiche absences</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="dataTable">
+                        <thead>
+                        <tr>
+                            <th>Cours</th>
+                            <th>Date
+                            <th>Etudiant</th>
+                            <th>Motif</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Cours</th>
+                            <th>Date</th>
+                            <th>Etudiant</th>
+                            <th>Motif</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for cours in matiere.cours %}
+                            {% for absence in cours.absences %}
+                                <tr>
+                                    <td>{{ cours.titre }}</td>
+                                    <td>{{ cours.beginAt|date('d-m-Y') }}</td>
+                                    <td><a href="{{ path('ens_etudiant_show',{'id':absence.etudiant.id}) }}">{{ absence.etudiant.nom }}</a></td>
+                                    <td>{{ absence.motif }}</td>
+                                </tr>
+                            {% endfor %}
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

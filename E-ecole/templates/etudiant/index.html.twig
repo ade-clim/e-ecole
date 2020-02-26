@@ -1,0 +1,271 @@
+{% extends 'baseEtudiant.html.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('slick/slick.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('slick/slick-theme.css') }}">
+
+    <style type="text/css">
+
+        .slider {
+            width: 85%;
+            margin: 100px auto;
+        }
+
+        .slick-slide img {
+            width: 100%;
+        }
+
+        .slick-prev:before,
+        .slick-next:before {
+            color: black;
+        }
+
+    </style>
+{% endblock %}
+{% block body %}
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Ma promo</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ etudiant.promotion.libelle }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Mes absences <small>(nombre)</small></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ etudiant.absences|length }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Mes matieres <small>(nombre)</small> </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ etudiant.promotion.matiere|length }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Mes cours <small>(nombre)</small></div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+
+                                            <!-- AFFICHE LE NOMBRE DE COURS EN FONCTION DES MATIERES-->
+                                            {% set cpt = 0 %}
+                                            {% for cours in etudiant.promotion.matiere %}
+                                                {% if cours.cours|length > 0 %}
+                                                    {% set cpt = cpt +(cours.cours|length) %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {{ cpt}}
+                                            <!-- AFFICHE LE NOMBRE DE COURS EN FONCTION DES MATIERES-->
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="progress progress-sm mr-2">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+
+        </div><br>
+
+
+
+
+
+        {% if absences|length > 0 %}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Mes absences</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Matiere</th>
+                                <th>Cour</th>
+                                <th>Date</th>
+                                <th>Motif</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Matiere</th>
+                                <th>Cour</th>
+                                <th>Date</th>
+                                <th>Motif</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+
+                            {% for absence in absences %}
+                                <tr>
+                                    <td>{{ absence.id}}</td>
+                                    <td>{{ absence.cours.matiere.nom }}</td>
+                                    <td>{{ absence.cours.titre }}</td>
+                                    <td>{{ absence.cours.beginAt|date('d-m-Y') }}</td>
+                                    <td>{{ absence.motif}}</td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="container d-flex justify-content-center">
+                    <ul class="pagination">
+                        <li class="page-item">{{ knp_pagination_render(absences) }}</li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+
+
+        <!-- AFFICHE LES MATIERES DE LETUDIANT EN SESSION-->
+        <section class="responsive slider">
+            {% for matiere in etudiant.promotion.matiere %}
+                {% set nbRessources = 0 %}
+                {% set nbAbsences = 0 %}
+                <div>
+                    <div class="card bg-light mb-3 " style="max-width: 18rem;">
+                        <div class="card-header bg-primary text-white" ><a class="text-white" href="{{ path('etu_matiere_view',{'id':matiere.id}) }}">{{ matiere.nom|capitalize}}</a></div>
+                        <div class="card-body">
+                            <h6 class="card-title"><i class="fas fa-user"></i> {{ matiere.enseignant.nom }} {{ matiere.enseignant.prenom }}</h6>
+                            <h6 class="card-title"><i class="fas fa-book"></i> {{ matiere.cours|length}} cours</h6>
+                            {% for cours in matiere.cours %}
+                                {% if cours.ressources|length > 0 %}
+                                    {% set nbRessources = nbRessources + (cours.ressources|length) %}
+                                {% endif %}
+                                {% for absence in cours.absences %}
+                                    {% if absence|length > 0 %}
+                                        {% set nbAbsences = nbAbsences + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            <h6 class="card-title"><i class="fas fa-file-archive"></i>  {{ nbRessources }} ressources</h6>
+                            <h6 class="card-title"><i class="fas fa-exclamation"></i> {{ nbAbsences }} absences classe</h6>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+        <!-- AFFICHE LES MATIERES DE LETUDIANT EN SESSION-->
+
+        <!-- AFFICHE LES DERNIERS ARTICLES DU BLOG-->
+        <section class="responsive slider">
+            {% for article in article %}
+                <div>
+                    <div class="card bg-light mb-3" style="max-width: 18rem;">
+                        <img class="card-img-top" src="{{ article.photo }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ article.name }}</h5>
+                            <p class="card-text">{{ article.content}}</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+        <!-- AFFICHE LES DERNIERS ARTICLES DU BLOG-->
+
+    </div>
+    <script src="{{ asset('slick/slick.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        $('.responsive').slick({
+            dots: true,
+            infinite: false,
+            speed: 300,
+            slidesToShow: 4,
+            slidesToScroll: 4,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        infinite: true,
+                        dots: true
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+    </script>
+{% endblock %}
+
+

@@ -1,0 +1,25 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header"><h3 align="center">Nouveau cours</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_start(formCour) }}
+                        {{ form_row(formCour.titre) }}
+                        {{ form_row(formCour.beginAt) }}
+                        {{ form_row(formCour.endAt) }}
+                        {{ form_row(formCour.description) }}
+                        <br><div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success">Creer</button>
+                        </div>
+
+                        {{ form_end(formCour) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

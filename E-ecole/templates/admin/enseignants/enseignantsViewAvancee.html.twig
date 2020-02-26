@@ -1,0 +1,109 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h2 class="h3 mb-0 text-gray-800">Enseignants</h2>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group mr-2">
+                    <a href="{{ path('admin_enseignant_create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Creer</a>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span data-feather="calendar"></span>Affichage
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ path('admin_enseignants_view_classic') }}">Classic</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Enseignants</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="dataTable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Email</th>
+                            <th>Adresse</th>
+                            <th>Promotion</th>
+                            <th>Matieres</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Email</th>
+                            <th>Adresse</th>
+                            <th>Promotion</th>
+                            <th>Matieres</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for enseignant in enseignant%}
+                            <tr>
+                                <td>{{ enseignant.id}}</td>
+                                <td>{{ enseignant.nom}}</td>
+                                <td>{{ enseignant.prenom}}</td>
+                                <td>{{ enseignant.email}}</td>
+                                <td>{{ enseignant.adresse.rue}} - {{ enseignant.adresse.codePostal}} {{ enseignant.adresse.ville}}</td>
+                                <td title="{% for promo in enseignant.promotions %}[{{ promo.libelle }}]{% endfor %}">{{ enseignant.promotions|length }}</td>
+
+
+                                <td title="{% for mat in enseignant.matiere %}[{{ mat.nom }}]{% endfor %}">{{ enseignant.matiere|length }}</td>
+
+
+                                <td><a href="{{ path('admin_enseignant_show',{'id':enseignant.id}) }}"><i style="color: green" class="fas fa-eye"></i></a></td>
+                                <td><a href="{{ path('admin_enseignant_edit',{'id':enseignant.id}) }}"><i class="fas fa-pencil-alt"></i></a></td>
+                                <td><i style="color: crimson" class="fas fa-trash-alt" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ enseignant.id }}"></i>
+                                </td>
+                            </tr>
+                            <!-- Delete Modal-->
+                            <div class="modal fade" id="myModal{{ enseignant.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document" id="15">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Supprimer l'enseignant ?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">Aucun retour en arriere ne sera possible</div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                                            <a class="btn btn-primary" href="{{ path('admin_enseignant_delete',{'id':enseignant.id}) }}">Supprimer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Delete Modal-->
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item">{{ knp_pagination_render(enseignant) }}</li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

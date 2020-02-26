@@ -1,0 +1,438 @@
+/**
+* Template Name: Dashio
+* Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+* Author: TemplateMag.com
+* License: https://templatemag.com/license/
+*/
+/*
+Template Name: DASHIO - Bootstrap 3.1.1 Admin Theme
+Template Version: 1.0
+Author: Carlos Alvarez
+Website: http://Alvarez.is/
+*/
+
+/* Import fonts */
+@import url(http://fonts.googleapis.com/css?family=Ruda:400,700,900);
+
+/* MAIL CONFIGURATION - INBOX, MAIL COMPOSE & MAIL VIEW  */
+.mail-nav {
+    margin:15px -15px 0 -15px;
+}
+.mail-nav li a {
+    border-radius:0;
+    -webkit-border-radius:0;
+    border-top:1px solid #f2f3f6;
+    padding:15px;
+    border-right:3px solid rgba(0,0,0,0);
+    color: #a2a2a2;
+}
+.mail-nav>li>a:hover,.mail-nav>li>a:focus {
+    background:#fafafa;
+    color:#4ECDC4;
+    border-right:3px solid #1fb5ad;
+}
+.mail-nav>li.active>a,.mail-nav>li.active>a:hover,.mail-nav>li.active>a:focus {
+    background:#fafafa;
+    color:#4ECDC4;
+    border-right:3px solid #4ECDC4;
+}
+.mail-nav>li+li {
+    margin-left:0;
+    margin-top:0px;
+}
+.mail-nav i {
+    font-size:16px;
+    margin-right:10px;
+}
+.inbox-notification {
+    margin-top:-2px;
+}
+.user-head .inbox-avatar {
+    width:65px;
+    float:left;
+}
+.user-head .inbox-avatar img {
+    border-radius:4px;
+    -webkit-border-radius:4px;
+}
+.user-head .user-name {
+    display:inline-block;
+    margin:0 0 0 10px;
+}
+.user-head .user-name h5 {
+    font-size:14px;
+    margin-top:15px;
+    margin-bottom:0;
+    font-weight:300;
+}
+.user-head .user-name h5 a {
+    color:#fff;
+}
+.user-head .user-name span a {
+    font-size:12px;
+    color:#87e2e7;
+}
+a.mail-dropdown {
+    background:#80d3d9;
+    padding:3px 5px;
+    font-size:10px;
+    color:#01a7b3;
+    border-radius:2px;
+    margin-top:20px;
+}
+.inbox-body {
+    padding:20px;
+}
+.btn-compose {
+    background:#4ECDC4;
+    padding:12px 0;
+    text-align:center;
+    width:100%;
+    color:#fff;
+}
+.btn-compose:hover,.btn-compose:focus {
+    background:#1ca59e;
+    color:#fff;
+}
+
+.btn-compose i {
+	padding: 5px;
+}
+
+ul.inbox-nav {
+    display:inline-block;
+    width:100%;
+    margin:0;
+    padding:0;
+}
+.inbox-divider {
+    border-bottom:1px solid #d5d8df;
+}
+.inbox-action {
+    margin-top:50px;
+}
+.src-position {
+    margin-top:-7px;
+}
+.mail-src-position {
+    margin-top:-3px;
+}
+ul.labels-info {
+    border-bottom:1px solid #f1f2f7;
+    margin-bottom:10px;
+}
+ul.inbox-nav li {
+    display:inline-block;
+    line-height:45px;
+    width:100%;
+}
+ul.inbox-nav li a {
+    color:#6a6a6a;
+    line-height:45px;
+    width:100%;
+    display:inline-block;
+    padding:0 20px;
+}
+ul.inbox-nav li a:hover,ul.inbox-nav li.active a,ul.inbox-nav li a:focus {
+    color:#6a6a6a;
+    background:#d5d7de;
+}
+ul.inbox-nav li a i {
+    padding-right:10px;
+    font-size:16px;
+    color:#6a6a6a;
+}
+ul.inbox-nav li a span.label {
+    margin-top:13px;
+}
+ul.labels-info li h4 {
+    padding-top:5px;
+    color:#5c5c5e;
+    font-size:15px;
+    text-transform:uppercase;
+}
+ul.labels-info li {
+    margin:0;
+}
+ul.labels-info li a {
+    color:#6a6a6a;
+    border-radius:0;
+    padding-left:0;
+    padding-right:0;
+}
+ul.labels-info li a:hover,ul.labels-info li a:focus {
+    color:#6a6a6a;
+    background:none;
+}
+ul.labels-info li img {
+    margin-right:10px;
+}
+.nav.nav-pills.nav-stacked.labels-info p {
+    margin-bottom:0;
+    padding:0 22px;
+    color:#9d9f9e;
+    font-size:11px;
+}
+.inbox-head {
+    padding:20px;
+    background:#41cac0;
+    color:#fff;
+    border-radius:0 4px 0 0;
+    -webkit-border-radius:0 4px 0 0;
+    min-height:80px;
+}
+.inbox-head h3 {
+    margin:0;
+    display:inline-block;
+    padding-top:6px;
+    font-weight:300;
+}
+.inbox-head .sr-input {
+    height:40px;
+    border:none;
+    box-shadow:none;
+    padding:0 10px;
+    float:left;
+    border-radius:4px 0 0 4px;
+    color:#8a8a8a;
+}
+.inbox-head .sr-btn {
+    height:40px;
+    border:none;
+    background:#00a6b2;
+    color:#fff;
+    padding:0 20px;
+    border-radius:0 4px 4px 0;
+    -webkit-border-radius:0 4px 4px 0;
+}
+.wht-bg {
+    background:#fff;
+}
+.wht-bg h4 {
+    font-size:24px;
+    color:#a2a2a2;
+    font-weight:300;
+}
+.table-inbox-wrap {
+    margin:0 -15px;
+}
+.mail-checkbox {
+    margin-right:10px;
+}
+.table-inbox {
+    margin:0;
+}
+.table-inbox tr td {
+    padding:12px !important;
+}
+.table-inbox tr td:first-child {
+    width:5%;
+}
+.table-inbox tr td:first-child .icheckbox_minimal {
+    margin-left:15px;
+}
+.table-inbox tr td:hover {
+    cursor:pointer;
+}
+.table-inbox tr td .fa-star.inbox-started,.table-inbox tr td .fa-star:hover {
+    color:#f78a09;
+}
+.table-inbox tr td .fa-star {
+    color:#d5d5d5;
+}
+.table-inbox tr.unread td {
+    font-weight:600;
+    background:#f7f7f7;
+}
+
+.table-inbox tr.unread a {
+    color: #32323a;
+}
+.table-inbox tr a {
+    color: #767676;
+}
+
+ul.inbox-pagination {
+    float:right;
+}
+ul.inbox-pagination li {
+    float:left;
+}
+
+.pagination li a {
+    color: #32323a;
+}
+.mail-option {
+    display:inline-block;
+    margin-bottom:10px;
+    width:100%;
+}
+.mail-option .chk-all {
+    float:left;
+}
+.mail-option .chk-all,.mail-option .btn-group {
+    margin-right:5px;
+}
+.mail-option .chk-all,.mail-option .btn-group a.btn {
+    border:1px solid #e7e7e7;
+    padding:5px 10px;
+    display:inline-block;
+    background:#fcfcfc;
+    color:#afafaf;
+    border-radius:3px !important;
+    -webkit-border-radius:3px !important;
+}
+.inbox-pagination a.np-btn {
+    border:1px solid #e7e7e7;
+    padding:5px 15px;
+    display:inline-block;
+    background:#fcfcfc;
+    color:#afafaf;
+    border-radius:3px !important;
+    -webkit-border-radius:3px !important;
+}
+.mail-option .chk-all input[type=checkbox] {
+    margin-top:0;
+}
+.mail-option .btn-group a.all {
+    padding:0;
+    border:none;
+}
+.inbox-pagination a.np-btn {
+    margin-left:5px;
+}
+.inbox-pagination li span {
+    display:inline-block;
+    margin-top:7px;
+    margin-right:5px;
+}
+.fileinput-button {
+    border:1px solid #e6e6e6;
+    background:#eeeeee;
+}
+.inbox-body .modal .modal-body input,.inbox-body .modal .modal-body textarea {
+    border:1px solid #e6e6e6;
+    box-shadow:none;
+}
+.btn-send,.btn-send:hover {
+    background:#00A8B3;
+    color:#fff;
+}
+.btn-send:hover {
+    background:#009da7;
+}
+.modal-header h4.modal-title {
+    font-weight:300;
+    font-family:'Open Sans',sans-serif;
+}
+.modal-body label {
+    font-weight:400;
+    font-family: 'Open Sans',sans-serif;
+}
+
+.compose-mail {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    margin-top: 20px;
+}
+
+
+.compose-mail .compose-options {
+    color: #979797;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    position: absolute;
+    right: 10px;
+    top: 7px;
+}
+
+.compose-mail input, .compose-mail input:focus {
+    border:none;
+    padding: 0;
+    width: 80%;
+    float: left;
+}
+.compose-mail .form-group {
+    border:1px solid #F2F3F6;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.compose-mail .form-group label {
+    line-height: 34px;
+    width: 10%;
+    float: left;
+    padding-left: 5px;
+    margin-bottom: 0;
+}
+
+.compose-editor input {
+    margin-top: 15px;
+}
+
+.compose-editor {
+    margin-bottom: 15px;
+    display: inline-block;
+    width: 100%;
+}
+
+.compose-btn {
+    float: left;
+    margin-top: 6px;
+}
+
+.mail-header h4 {
+    font-weight: 300;
+}
+
+.mail-sender, .attachment-mail {
+    width: 100%;
+    display: inline-block;
+    margin: 20px 0;
+    border-top:1px solid #EFF2F7 ;
+    border-bottom:1px solid #EFF2F7 ;
+    padding: 10px 0;
+
+}
+
+.mail-sender img {
+    width: 30px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.mail-sender .date {
+    line-height: 30px;
+    margin-bottom: 0;
+    text-align: right;
+}
+
+.view-mail a, .attachment-mail a:hover {
+    color: #4ECDC4;
+}
+
+.attachment-mail a{
+    color: #4ECDC4;
+}
+
+.attachment-mail ul li  {
+    float: left;
+    width: 200px;
+    margin-right: 15px;
+    margin-top: 15px;
+    list-style: none;
+}
+
+.attachment-mail ul li a.atch-thumb img {
+    width: 200px;
+    height: 180px;
+    margin-bottom: 10px;
+}
+
+.attachment-mail ul li a.name span {
+    float: right;
+    color: #767676;
+}

@@ -1,0 +1,179 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+
+
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        </div>
+
+
+        <div class="row">
+
+
+            <!--VA PERMETTRE DE PARCOURIR L'ENSEIGNANT POUR AFFICHER LE COMPTEUR DE MATIERE, COURS, RESSOURCES ET ABSENCES DE LA CLASSE -->
+            {% set coursNombre = 0 %}
+            {% set resourcesNombre = 0 %}
+            {% set absencesNombre = 0 %}
+            {% for matiere in enseignant.matiere %}
+                {% for cours in matiere.cours %}
+                    {% set coursNombre = coursNombre + (cours|length) %}
+                    {% set resourcesNombre = resourcesNombre + (cours.ressources|length) %}
+                    {% if cours.absences|length > 0 %}
+                        {% set absencesNombre = absencesNombre + (cours.absences|length) %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            <!-- fin boucle-->
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Matieres (Nombre)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ enseignant.matiere|length }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Cours (Nombre)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ coursNombre }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Ressources (Nombre)</div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ resourcesNombre }}</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="progress progress-sm mr-2">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Absences (Total)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ absencesNombre }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if enseignant.matiere|length > 0 %}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Mes matières</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Matiere</th>
+                                <th>Promo</th>
+                                <th>Cours<small>(nombre)</small></th>
+                                <th>Ressources<small>(nombre)</small></th>
+                                <th>Etudiants<small>(nombre)</small></th>
+                                <th>Absences</th>
+                                <th>View</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Matiere</th>
+                                <th>Promo</th>
+                                <th>Cours<small>(nombre)</small></th>
+                                <th>Ressources<small>(nombre)</small></th>
+                                <th>Etudiants<small>(nombre)</small></th>
+                                <th>Absences</th>
+                                <th>View</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+
+                            {% for matiere in enseignant.matiere%}
+                                {% set nbRessources = 0 %}
+                                {% set nbAbsences = 0 %}
+                                <tr>
+                                    <td>{{ matiere.id}}</td>
+                                    <td>{{ matiere.nom}}</td>
+                                    <td>{{ matiere.promotion.libelle }}</td>
+                                    <td>{{ matiere.cours|length }}</td>
+                                    {% for cours in matiere.cours %}
+                                        {% if cours.ressources|length > 0 %}
+                                            {% set nbRessources = nbRessources + (cours.ressources|length) %}
+                                        {% endif %}
+                                        {% if cours.absences|length > 0 %}
+                                            {% set nbAbsences = nbAbsences + (cours.absences|length) %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td>{{ nbRessources }}</td>
+                                    <td>{{ matiere.promotion.etudiants|length }}</td>
+                                    <td>{{ nbAbsences }}</td>
+                                    <td><a href="{{ path('ens_matiere_show',{'id':matiere.id}) }}"><i style="color: green" class="fas fa-eye"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <span style="color: grey">Aucunes matières</span></i>
+        {% endif %}
+
+    </div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'baseEtudiant.html.twig' %}
+
+{% block body %}
+    <link href="{{ asset('message/lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
+    <link href="{{ asset('message/css/style.css') }}" rel="stylesheet">
+    <div class="row mt">
+        <div class="col-sm-3">
+            <div class="container-fluid">
+                <div class="card">
+                    <section class="panel">
+                        <div class="panel-body">
+                            <a data-toggle="modal" class="btn btn-compose" data-target="#envoieModal" >
+                                <i class="text-white fa fa-pencil"> Nouveau message</i>
+                            </a>
+                        </div><br>
+                        <div>
+                            <ul>
+                                <li style="list-style: none" class="active"><a href="{{ path('etu_messagerie') }}"> <i class="fa fa-inbox"></i> Boite de réception  <span ></span></a>
+                                </li>
+                                <li style="list-style: none"><a href="{{ path('etu_message_send') }}"> <i class="fa fa-envelope-o"></i> Messages envoyés</a>
+                                </li>
+                                </li>
+                                <li style="list-style: none"><a href="#"> <i class="fa fa-trash-o"></i> Corbeille</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Envoie Modal-->
+                        <div class="modal fade" id="envoieModal">
+                            <div class="modal-dialog" >
+                                <div class="modal-content">
+                                    {{ form_start(formMessageSend)}}
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Envoyer un message</h5>
+                                        <button class="close" type="button" data-dismiss="modal" >
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ form_row(formMessageSend.email) }}
+                                        {{ form_row(formMessageSend.titre) }}
+                                        {{ form_row(formMessageSend.body) }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        {{ form_end(formMessageSend)}}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Envoie Modal-->
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-9">
+            <div class="card">
+                <div class="container-fluid">
+                    <section class="panel">
+                        <div class="panel-body ">
+                            <div class="mail-header row">
+                                <div class="col-md-8">
+                                    <br><h4 class="pull-left">{{ message.titre }}</h4>
+                                </div>
+                            </div>
+                            <div class="mail-sender">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <img src="img/ui-zac.jpg" alt="">
+                                        <strong>to</strong>
+                                        <span>[{{ message.email }}]</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="date"> <small>{{ message.date|date('d-m-y H:i') }}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="view-mail">
+                                <p>{{ message.body }}</p>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

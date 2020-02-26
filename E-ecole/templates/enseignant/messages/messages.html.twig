@@ -1,0 +1,105 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+{% block body %}
+    <link href="{{ asset('message/lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
+    <link href="{{ asset('message/css/style.css') }}" rel="stylesheet">
+    <div class="row mt">
+        <div class="col-sm-3">
+            <div class="container-fluid">
+                <div class="card">
+                    <section class="panel">
+                        <div class="panel-body">
+                            <a data-toggle="modal" class="btn btn-compose" data-target="#envoieModal" >
+                                <i class="text-white fa fa-pencil"> Nouveau message</i>
+                            </a>
+                        </div><br>
+                        <div>
+                            <ul>
+                                <li style="list-style: none" class="active"><a href="{{ path('ens_messagerie') }}"> <i class="fa fa-inbox"></i> Boite de réception  <span ></span></a>
+                                </li>
+                                <li style="list-style: none"><a href="{{path('ens_message_send')  }}"> <i class="fa fa-envelope-o"></i> Messages envoyés</a>
+                                </li>
+                                </li>
+                                <li style="list-style: none"><a href="#"> <i class="fa fa-trash-o"></i> Corbeille</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Envoie Modal-->
+                        <div class="modal fade" id="envoieModal">
+                            <div class="modal-dialog" >
+                                <div class="modal-content">
+                                    {{ form_start(formMessageSend)}}
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Envoyer un message</h5>
+                                        <button class="close" type="button" data-dismiss="modal" >
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ form_row(formMessageSend.email) }}
+                                        {{ form_row(formMessageSend.titre) }}
+                                        {{ form_row(formMessageSend.body) }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        {{ form_end(formMessageSend)}}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Envoie Modal-->
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!--   CODE EMAIL RECU!-->
+        {% if enseignant.messagerie.messageRecu|length >0 %}
+
+            <div class="col-sm-9">
+                <form method="post" action="{{ path('ens_message_inbox_delete') }}">
+                    <div class="panel-body minimal">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Messagerie <button style="border: none; color: red; background: transparent" type="submit" value="" class="fa fa-trash-o"></button></h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table" id="dataTable">
+                                        <tbody>
+
+                                        <!--  boucle qui va afficher tous les messages recu par l'utilisateur en session -->
+
+                                        {% for m in enseignant.messagerie.messageRecu|sortbyfield('id') %}
+                                            {% if m.online == 1 %}
+                                                <tr>
+                                            {% else %}
+                                                <tr bgcolor="#f5f5f5">
+                                            {% endif %}
+
+                                            <td class="inbox-small-cells">
+                                                <input type="checkbox" name="mesIds[]" value="{{ m.id }}">
+                                            </td>
+                                            <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                            <td ><a href="{{ path('ens_message_inbox_view',{'id': m.id}) }}">{{ m.titre }}</a></td>
+                                            <td >{{ m.body|slice(0,20) }}...</td>
+                                            <td class="text-right"><small>{{ m.date|date('d-m H:i:s') }}</small></td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        <!--  boucle qui va afficher tous les messages recu par l'utilisateur en session -->
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% else %}
+            <p>aucun message recu</p>
+        {% endif %}
+    </div>
+{% endblock %}

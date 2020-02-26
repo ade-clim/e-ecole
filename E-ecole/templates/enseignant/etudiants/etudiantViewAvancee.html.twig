@@ -1,0 +1,77 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h2 class="h3 mb-0 text-gray-800">Mes etudiants</h2>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group mr-2">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span data-feather="calendar"></span>Affichage
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ path('ens_etudiant_view_classic') }}">Classic</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Fiches </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="dataTable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Email</th>
+                            <th>Adresse</th>
+                            <th>Promotion</th>
+                            <th>Absences</th>
+                            <th>View</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Email</th>
+                            <th>Adresse</th>
+                            <th>Promotion</th>
+                            <th>Absences</th>
+                            <th>View</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for keys in etudiant|keys %}
+                            {% for etudiants in etudiant[keys]%}
+                                <tr>
+                                    <td>{{ etudiants.id}}</td>
+                                    <td>{{ etudiants.nom}}</td>
+                                    <td>{{ etudiants.prenom}}</td>
+                                    <td>{{ etudiants.email}}</td>
+                                    <td>{{ etudiants.adresse.rue}} - {{ etudiants.adresse.codePostal}} {{ etudiants.adresse.ville}}</td>
+                                    <td>{{ etudiants.promotion.libelle }}</td>
+                                    <td>{{ etudiants.absences.count() }}</td>
+                                    <td><a href="{{ path('ens_etudiant_show',{'id':etudiants.id}) }}"><i style="color: green" class="fas fa-eye"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item">{{ knp_pagination_render(etudiant) }}</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

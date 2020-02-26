@@ -1,0 +1,177 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+{% block body %}
+
+    {% if etudiants|length < 1 and enseignants|length <1 and matieres|length < 1%}
+        <div class="container-fluid">
+            <h4>Aucune recherche ne correpond au terme "{{ valueSearch }}"</h4>
+        </div>
+
+    {% endif %}
+    {% if etudiants|length >0 %}
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Recherche etudiants</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Email</th>
+                                <th>Adresse</th>
+                                <th>Promotion</th>
+                                <th>Absences total</th>
+
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Email</th>
+                                <th>Adresse</th>
+                                <th>Promotion</th>
+                                <th>Absences total</th>
+
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for etudiant in etudiants%}
+                                <tr>
+                                    <td>{{ etudiant.id}}</td>
+                                    <td>{{ etudiant.nom}}</td>
+                                    <td>{{ etudiant.prenom}}</td>
+                                    <td>{{ etudiant.email}}</td>
+                                    <td>{{ etudiant.adresse.rue}} - {{ etudiant.adresse.codePostal}} {{ etudiant.adresse.ville}}</td>
+                                    <td>{{ etudiant.promotion.libelle }}</td>
+                                    <td>{{ etudiant.absences|length }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+
+    {% if matieres|length >0 %}
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Recherche matieres</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Libelles</th>
+                                <th>Promotions</th>
+                                <th>Enseignants</th>
+                                <th>Cours<small>(nombre)</small></th>
+                                <th>Absences</th>
+
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Libelles</th>
+                                <th>Promotions</th>
+                                <th>Enseignants</th>
+                                <th>Cours<small>(nombre)</small></th>
+                                <th>Absences</th>
+
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for matiere in matieres%}
+                                {% set cpt = 0%}
+                                <tr>
+                                    <td>{{ matiere.id}}</td>
+                                    <td>{{ matiere.nom}}</td>
+                                    <td>{{ matiere.promotion.libelle }}</td>
+                                    <td>{{ matiere.enseignant.nom}} {{ matiere.enseignant.prenom }}</td>
+                                    <td>{{ matiere.cours|length }}</td>
+                                    {% for cours in matiere.cours %}
+                                        {% if cours.absences|length >0 %}
+                                            {% set cpt = cpt + (cours.absences|length)  %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td>{{ cpt }}</td>
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+    {% if enseignants|length >0 %}
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Recherche enseignants</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Email</th>
+                                <th>Adresse</th>
+                                <th>Promotion</th>
+                                <th>Matieres</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Email</th>
+                                <th>Adresse</th>
+                                <th>Promotion</th>
+                                <th>Matieres</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for enseignant in enseignants%}
+                                <tr>
+                                    <td>{{ enseignant.id}}</td>
+                                    <td>{{ enseignant.nom}}</td>
+                                    <td>{{ enseignant.prenom}}</td>
+                                    <td>{{ enseignant.email}}</td>
+                                    <td>{{ enseignant.adresse.rue}} - {{ enseignant.adresse.codePostal}} {{ enseignant.adresse.ville}}</td>
+                                    <td title="{% for promo in enseignant.promotions %}[{{ promo.libelle }}]{% endfor %}">{{ enseignant.promotions|length }}</td>
+                                    <td title="{% for mat in enseignant.matiere %}[{{ mat.nom }}]{% endfor %}">{{ enseignant.matiere|length }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

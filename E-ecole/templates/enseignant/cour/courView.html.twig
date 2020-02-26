@@ -1,0 +1,101 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h2 class="h3 mb-0 text-gray-800">Cours : <span class="text-primary">{{ cour.titre }}</span></h2>
+        </div>
+        <div class="container-fluid">
+            <p>Mes ressources : <i onclick = "myFunction('ressource')" class="fas fa-plus"></i>
+            <div class="col-3" id="ressource" style="display: none;">
+                {{ form(formRessource)}}
+            </div>
+            </p>
+            {% if cour.ressources.count >0 %}
+                <hr>
+                {% for fichier in cour.ressources|sortbyfield('id') %}
+                    <p>
+                        <i class="fas fa-file-pdf"></i><a target="_blank" href="{{ asset('uploads/')}}{{ fichier.nom }}"> {{ fichier.titre }}</a>
+                    </p>
+                {% endfor %}
+                <hr>
+            {% endif %}
+            <p>Etudiants : <i onclick = "myFunction('absence')" class="fas fa-eye"></i></p>
+            <div id="absence" style="display: none;">
+                <form method="post" action="{{ path('ens_cour_absence',{'id':cour.id}) }}">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Etudiants du cours</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-sm">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nom</th>
+                                        <th>Absences </th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nom</th>
+                                        <th>Absences </th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+
+                                    {% set verifAbsences = 0 %}
+                                    {% for etudiants in etudiants%}
+                                        <tr>
+                                            <td>{{ etudiants.id}}</td>
+                                            <td>{{ etudiants.nom}}</td>
+                                            {% if etudiants.absences|length > 0 %}
+                                                {% set verifAbsences = 1 %}
+                                                <td><input type="checkbox" name="mesIds[]" value="{{ etudiants.id }}" checked></td>
+                                            {% else %}
+                                                <td><input type="checkbox" name="mesIds[]" value="{{ etudiants.id }}"></td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {% if verifAbsences == 1 %}
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit">Modifier absences</button>
+                                </div>
+
+                            {% else %}
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit">Creer absences</button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+    {% block javascripts %}
+        <script>
+            function myFunction(id) {
+                var div = document.getElementById(id);
+
+                if(div.style.display == "none") {
+                    div.style.display = "block";
+                } else {
+                    div.style.display = "none";
+                }
+            }
+        </script>
+    {% endblock %}
+

@@ -1,0 +1,34 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header"><h3 align="center">Enseignant</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_start(formEnseignant) }}
+                        {{ form_row(formEnseignant.photo) }}
+                        {{ form_row(formEnseignant.nom) }}
+                        {{ form_row(formEnseignant.prenom) }}
+                        {{ form_row(formEnseignant.promotions) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header"><h3 align="center">Adresse</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_row(formEnseignant.adresse.rue) }}
+                        {{ form_row(formEnseignant.adresse.codepostal) }}
+                        {{ form_row(formEnseignant.adresse.ville) }}
+                    </div>
+                </div><br>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success">Creer</button>
+                </div>
+                {{ form_end(formEnseignant) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

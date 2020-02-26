@@ -1,0 +1,48 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center">
+            <div class="col-md-3">
+                <div class="card" style="height: 23rem;">
+                    <div class="card-header"><h3 align="center">Ma fiche</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_start(formEnseignant) }}
+                        {{ form_row(formEnseignant.nom) }}
+                        {{ form_row(formEnseignant.prenom) }}
+                        {{ form_row(formEnseignant.email) }}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card" style="height: 23rem;">
+                    <div class="card-header"><h3 align="center">Adresse</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_row(formEnseignant.adresse.rue) }}
+                        {{ form_row(formEnseignant.adresse.codepostal) }}
+                        {{ form_row(formEnseignant.adresse.ville) }}
+                    </div>
+                </div><br>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success">Modifier</button>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card" style="height: 23rem;">
+                    <div class="card-header"><h3 align="center">Login</h3></div>
+                    <div class="card-body text-primary">
+                        {{ form_row(formEnseignant.login.password) }}
+                        {{ form_end(formEnseignant) }}
+                    </div>
+                </div><br>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

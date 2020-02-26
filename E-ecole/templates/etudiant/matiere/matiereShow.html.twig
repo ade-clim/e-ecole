@@ -1,0 +1,47 @@
+{% extends 'baseEtudiant.html.twig' %}
+{% block body %}
+
+    <h4 style=>{{ matieres.nom|upper }}  <a data-toggle="modal" data-target="#envoieModal" ><button class="btn-sm btn-primary"><i style="color: orange;" class="fas fa-envelope"></i> Envoyer message</button></a></h4>
+
+    <hr>
+    <h6>Annonces</h6>
+    <hr>
+    <ul>
+        {% for cours in matieres.cours %}
+            <li>{{ cours.titre }}</li>
+            {% for ressources in cours.ressources %}
+                <ul>
+                    <li><a href="{{ asset('uploads/')}}{{ressources.nom }}">{{ressources.titre }}</a></li>
+                </ul>
+            {% endfor %}
+            <hr>
+        {% endfor %}
+    </ul>
+
+
+    <!-- Envoie Modal-->
+    <div class="modal fade" id="envoieModal">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                {{ form_start(formMessageSend)}}
+                <div class="modal-header">
+                    <h5 class="modal-title">Envoyer un message</h5>
+                    <button class="close" type="button" data-dismiss="modal" >
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_widget(formMessageSend.email,{ 'attr' : {'value': matieres.enseignant.email}}) }}
+                    {{ form_row(formMessageSend.titre) }}
+                    {{ form_row(formMessageSend.body) }}
+                </div>
+                <div class="modal-footer">
+                    {{ form_end(formMessageSend)}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Envoie Modal-->
+
+{% endblock %}

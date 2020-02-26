@@ -1,0 +1,50 @@
+{% extends 'baseEnseignant.html.twig' %}
+
+{% block title %}Cours{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1>Cours</h1>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cour.id }}</td>
+            </tr>
+            <tr>
+                <th>Matiere</th>
+                <td>{{ cour.matiere }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ cour.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ cour.description }}</td>
+            </tr>
+            <tr>
+                <th>Ressources</th>
+                <td>{{ cour.ressources|length }}</td>
+            </tr>
+
+            <tr>
+                <th>Début</th>
+                <td>{{ cour.beginAt ? cour.beginAt|date('d-m-Y H:i') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Fin</th>
+                <td>{{ cour.endAt ? cour.endAt|date('d-m-Y H:i') : '' }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('cours_index') }}">back</a>
+
+        <a href="{{ path('cours_edit', {'id': cour.id}) }}">edit</a>
+
+        {{ include('cours/_delete_form.html.twig') }}
+    </div>
+
+{% endblock %}
